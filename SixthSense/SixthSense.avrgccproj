@@ -2,7 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectVersion>1.0</ProjectVersion>
+    <ProjectVersion>5.0</ProjectVersion>
     <ProjectGuid>{5315bd64-1fb1-455a-affd-4cd006de545e}</ProjectGuid>
     <avrdevice>ATmega32</avrdevice>
     <avrdeviceseries>none</avrdeviceseries>
@@ -13,6 +13,12 @@
     <AssemblyName>SixthSense</AssemblyName>
     <Name>SixthSense</Name>
     <RootNamespace>SixthSense</RootNamespace>
+    <OutputType>Executable</OutputType>
+    <Language>C</Language>
+    <UseGlobalToolchain>True</UseGlobalToolchain>
+    <GlobalToolchainPath>C:\Program Files (x86)\Atmel\AVR Studio 5.0\AVR ToolChain\bin</GlobalToolchainPath>
+    <ToolchainDirPath />
+    <MakeDirPath />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
