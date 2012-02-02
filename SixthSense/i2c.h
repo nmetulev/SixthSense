@@ -13,10 +13,9 @@
 #define CAM_W 0x7A
 #define CAM_R 0x7B
 
-void i2cstart(void);
-void i2cRepeatStart(void);
+void i2cRepeatStart(unsigned char);
 void ackCam(void);
-
+void i2cwrite(unsigned char, unsigned char);
 //// Helper Functions ///
 
 void flashSuccess(void);

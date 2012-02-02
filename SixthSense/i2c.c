@@ -6,39 +6,68 @@
  */ 
 #include "i2c.h"
 
-void i2cstart(void)
-{
-	TWCR = 0xA4;					// 10100100 (TWINT, TWSTA and TWEN)
-	while(!(TWCR & 0x80));			// wait for ACK (TWEA)
-	
-	if ((TWSR & 0xF8) == 0x08)
-		flashSuccess();
-	else
-		showError(TWSR);
-}
-
-void i2cRepeatStart(void)
+void i2cRepeatStart(unsigned char camAddress)
 {
 	TWCR = 0xA4;					// 10100100 (TWINT, TWSTA and TWEN)
 	while(!(TWCR & 0x80));			//  wait for ACK (TWEA)
-	
-	if ((TWSR & 0xF8) == 0x10)
-		flashSuccess();
-	else
-		showError(TWSR);
-}
-
-void ackCam(void)
-{
-	TWDR = CAM_W;						// load address of camera in TWDR
-	TWCR = 0x84;					// 10000100 (TWINT, TWEM)
+	TWDR = camAddress;					// load address of camera
+	TWCR = 0x84;
 	while(!(TWCR & 0x80));			// wait for ACK from camera
-	
 	if ((TWSR & 0xF8) == 0x18)
 		flashSuccess();
 	else
 		showError(TWSR);
 }
+
+/*void ackCam(void)
+{
+	TWDR = CAM_W;
+	TWCR = 0x84;					// 10000100 (TWINT, TWEM)
+	while(!(TWCR & 0x80));			// wait for ACK from camera
+}*/
+void i2cwrite(unsigned char reg, unsigned char data)
+{
+	//start
+	TWCR = 0xA4;					// 10100100 (TWINT, TWSTA and TWEN)
+	while(!(TWCR & 0x80));			// wait for ACK (TWEA)
+	TWDR = CAM_W;					// load address of camera
+	TWCR = 0x84;
+	while(!(TWCR & 0x80));			// wait for ACK from camera
+	
+	TWDR = reg;						// send register to write to
+	TWCR = 0x84;
+	while(!(TWCR & 0x80));			// wait for ACK from camera
+	TWDR = data;					// load data
+	TWCR = 0x84;
+	while(!(TWCR & 0x80));			// wait for ACK from camera
+	if ((TWSR & 0xF8) == 0x28)
+		flashSuccess();
+	else
+		showError(TWSR);
+	
+	TWCR = 0x94;					// Stop condition
+}
+/*unsigned char i2cread(char reg, char ack)
+{
+	char data;
+	
+	TWDR = CAM_W;					// load address of camera
+	TWCR = 0x84;
+	while(!(TWCR & 0x80));			// wait for ACK from camera
+	TWDR = reg;						// send register to read from
+	TWCR = 0x84;
+	while(!(TWCR & 0x80));			// wait for ACK from camera
+	i2cRepeatStart();
+	TWDR = CAM_R;
+	TWCR = 0x84;
+	while(!(TWCR & 0x80));			// wait for ACK from camera
+	TWCR = 0x84;
+	data = TWDR;
+	
+	return data;
+	// not fully sure if correct
+	// need to test this out
+}*/
 
 /////// Helper Functions ////////
 
