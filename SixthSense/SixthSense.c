@@ -6,6 +6,8 @@
 #include <avr/io.h>
 #include "avr.h"
 #include "i2c.h"
+#include "spi.h"
+#include "SDHC.h"
 
 int main(void)
 {
@@ -21,9 +23,11 @@ int main(void)
 	wait_avr(2000);
 	
 	
-	i2cstart();
-	wait_avr(1000);
-	ackCam();
+	//i2cstart();
+	//wait_avr(1000);
+	//ackCam();
+	
+	SD_init();
     while(1)
     {
         if(GET_BIT(PINB, 2) == 0)

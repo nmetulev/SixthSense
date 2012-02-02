@@ -52,13 +52,31 @@
     <Compile Include="avr.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="FAT32.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="FAT32.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="i2c.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="i2c.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="SDHC.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SDHC.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="SixthSense.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="spi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="spi.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

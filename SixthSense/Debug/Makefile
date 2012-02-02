@@ -44,8 +44,11 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../avr.c \
+../FAT32.c \
 ../i2c.c \
-../SixthSense.c
+../SDHC.c \
+../SixthSense.c \
+../spi.c
 
 
 PREPROCESSING_SRCS += 
@@ -56,26 +59,38 @@ ASM_SRCS +=
 
 OBJS +=  \
 avr.o \
+FAT32.o \
 i2c.o \
-SixthSense.o
+SDHC.o \
+SixthSense.o \
+spi.o
 
 
 OBJS_AS_ARGS +=  \
 avr.o \
+FAT32.o \
 i2c.o \
-SixthSense.o
+SDHC.o \
+SixthSense.o \
+spi.o
 
 
 C_DEPS +=  \
 avr.d \
+FAT32.d \
 i2c.d \
-SixthSense.d
+SDHC.d \
+SixthSense.d \
+spi.d
 
 
 C_DEPS_AS_ARGS +=  \
 avr.d \
+FAT32.d \
 i2c.d \
-SixthSense.d
+SDHC.d \
+SixthSense.d \
+spi.d
 
 
 OUTPUT_FILE_PATH +=SixthSense.elf
@@ -101,6 +116,12 @@ MAP_FILE_PATH_AS_ARGS =SixthSense.map
 ADDITIONAL_DEPENDENCIES:= $(HEX_FLASH_FILE_PATH) size
 
 # AVR/GNU C Compiler
+
+
+
+
+
+
 
 
 
