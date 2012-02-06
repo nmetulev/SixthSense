@@ -58,10 +58,10 @@
     <Compile Include="avr.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="FAT32.c">
+    <Compile Include="camera.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="FAT32.h">
+    <Compile Include="camera.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="i2c.c">
@@ -70,19 +70,10 @@
     <Compile Include="i2c.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SDHC.c">
+    <Compile Include="main.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="SDHC.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="SixthSense.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="spi.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="spi.h">
+    <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

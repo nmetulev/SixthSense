@@ -6,6 +6,7 @@
  */ 
 
 #include "avr.h"
+#include "main.h"
 
 #ifndef I2C_H
 #define I2C_H
@@ -13,9 +14,10 @@
 #define CAM_W 0x7A
 #define CAM_R 0x7B
 
-void i2cRepeatStart(unsigned char);
 void ackCam(void);
+
 void i2cwrite(unsigned char, unsigned char);
+unsigned char i2cread(char reg, char ack);
 //// Helper Functions ///
 
 void flashSuccess(void);
