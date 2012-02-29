@@ -30,4 +30,9 @@ void CamInit()
 	i2cwrite(0x0B, 0x00); // white line off
 	i2cwrite(0x05, 0x80); // frame rate full
 	i2cwrite(0x04, 0x18); // RGB Full Size, OUT ON
+	
+	
+	//i2cwrite(0x1E, 0xF9);
+	//i2cwrite(0x0E, 0x0F);
+	//i2cwrite(0x04, 0x18);
 }

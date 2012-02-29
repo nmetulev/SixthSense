@@ -17,7 +17,7 @@ int main(void)
 	
 	CamInit();
 	
-	i2cwrite(0x05, 0x80);
+	//i2cwrite(0x05, 0x80);
 	
 	flashLED(YELLOW); // init complete
     while(1)
