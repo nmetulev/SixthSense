@@ -6,64 +6,57 @@
  */ 
 #include "i2c.h"
 
-/*
-void ackCam(void)
-{
-	TWCR = 0xA4;					// 10100100 (TWINT, TWSTA and TWEN)
-	while(!(TWCR & 0x80));			// wait for ACK (TWEA)
-	TWDR = CAM_W;
-	TWCR = 0x84;					// 10000100 (TWINT, TWEM)
-	while(!(TWCR & 0x80));			// wait for ACK from camera
-	if ((TWSR & 0xF8) == 0x18)
-		flashSuccess();
-	else
-		showError(TWSR);
-}*/
 
-void i2cwrite(unsigned char reg, unsigned char data)
+void initI2C()
+{
+	TWBR = 0x01;
+}
+
+
+void i2cwrite(unsigned char address, unsigned char reg, unsigned char data)
 {
 	//start
 	TWCR = 0xA4;					// 10100100 (TWINT, TWSTA and TWEN)
 	while(!(TWCR & 0x80));			// wait for ACK (TWEA)
-	TWDR = CAM_W;					// load address of camera
+	TWDR = address;					// load address of device
 	TWCR = 0x84;
-	while(!(TWCR & 0x80));			// wait for ACK from camera
+	while(!(TWCR & 0x80));			// wait for ACK from device
 	
 	TWDR = reg;						// send register to write to
 	TWCR = 0x84;
-	while(!(TWCR & 0x80));			// wait for ACK from camera
+	while(!(TWCR & 0x80));			// wait for ACK from device
 	TWDR = data;					// load data
 	TWCR = 0x84;
-	while(!(TWCR & 0x80));			// wait for ACK from camera
+	while(!(TWCR & 0x80));			// wait for ACK from device
 	if ((TWSR & 0xF8) != 0x28)
 		showError(TWSR);
 	
 	TWCR = 0x94;					// Stop condition
 }
 
-/*
-unsigned char i2cread(char reg, char ack)
+
+unsigned char i2cread(unsigned char address)
 {
 	char data;
+	TWCR = 0xA4;					// start condition
+	while(!(TWCR & 0x80));			// wait for Start to be sent
+	TWDR = address;					// load SLA+R address of device
+	TWCR = 0x84;					// transmit address
+	while(!(TWCR & 0x80));			// wait for ACK from camera
 	
-	TWDR = CAM_W;					// load address of camera
+	if ((TWSR 0xF8) != 0x40)		// make sure ACK has been received
+		showError(TWSR);
+		
 	TWCR = 0x84;
 	while(!(TWCR & 0x80));			// wait for ACK from camera
-	TWDR = reg;						// send register to read from
-	TWCR = 0x84;
-	while(!(TWCR & 0x80));			// wait for ACK from camera
-	i2cRepeatStart();
-	TWDR = CAM_R;
-	TWCR = 0x84;
-	while(!(TWCR & 0x80));			// wait for ACK from camera
-	TWCR = 0x84;
+	
 	data = TWDR;
-	
 	return data;
 	// not fully sure if correct
 	// need to test this out
 }
-*/
+
+
 /////// Helper Functions ////////
 
 void flashSuccess(void)

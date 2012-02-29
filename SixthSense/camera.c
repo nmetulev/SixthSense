@@ -10,6 +10,13 @@
 
 void CamInit()
 {
+	
+}
+
+
+/*
+void CamInit()
+{
 	int reset = 2; // reset pin on C
 	SET_BIT(DDRC, reset); // enable reset pin for out
 	
@@ -36,3 +43,4 @@ void CamInit()
 	//i2cwrite(0x0E, 0x0F);
 	//i2cwrite(0x04, 0x18);
 }
+*/
