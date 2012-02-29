@@ -23,7 +23,11 @@ void ackCam(void)
 void i2cwrite(unsigned char reg, unsigned char data)
 {
 	//start
-	TWCR = 0xA4;					// 10100100 (TWINT, TWSTA and TWEN)
+	
+	// address of the bridge when connected A1 to SCL and A0 to SDA is 0xA6 (1010 011x)
+	// x = 0 for write, x = 1 for read
+	
+/*	TWCR = 0xA4;					// 10100100 (TWINT, TWSTA and TWEN)
 	while(!(TWCR & 0x80));			// wait for ACK (TWEA)
 	TWDR = CAM_W;					// load address of camera
 	TWCR = 0x84;
@@ -38,7 +42,7 @@ void i2cwrite(unsigned char reg, unsigned char data)
 	if ((TWSR & 0xF8) != 0x28)
 		showError(TWSR);
 	
-	TWCR = 0x94;					// Stop condition
+	TWCR = 0x94;					// Stop condition */
 }
 
 /*
