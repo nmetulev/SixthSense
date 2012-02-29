@@ -11,9 +11,14 @@
 
 
 
-void startSPI(void);
-unsigned char SPI_transmit(unsigned char);
-unsigned char SPI_receive(void);
+//void startSPI(void);
+//unsigned char SPI_transmit(unsigned char);
+//unsigned char SPI_receive(void);
+
+void SPI_MasterInit(void);
+void SPI_MasterTransmit(char);
+void SPI_SlaveInit(void);
+unsigned char SPI_SlaveReceive(void);
 
 
 
