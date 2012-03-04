@@ -64,16 +64,55 @@
     <Compile Include="camera.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="FAT32.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="FAT32.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="func.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="i2c.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="i2c.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="lcd.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="lcd.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="spi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="spi.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPItoUART.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPItoUART.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USART.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="USART.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="WiFly.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="WiFly.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
