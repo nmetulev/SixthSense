@@ -37,7 +37,8 @@ void initUART(unsigned long baudrate)
   // Write '96' to get 9600 baud rate
   //Assumes you have the version with the ~14MHz crystal
   // (16x9600 = 153600 = 14.7456Mhz/96)
-  writeRegister(DLL,96);
+  // (16x38400 = 614400 = 14.7456Mhz/24)
+  writeRegister(DLL,24);
   writeRegister(DLH,0x00); 
   
   //Line Control Register: Disnable Writing DLH & DLL
@@ -100,9 +101,16 @@ unsigned char available()
 
 unsigned char read()
 {
-	if (!available())
-		return -1;
+	while (!available());
+		//return -1;
 	return readRegister(0x00);
+}
+
+void flush()
+{
+	unsigned char dummy;
+	while (available())
+		dummy = read();
 }
 
 void write(unsigned char value)

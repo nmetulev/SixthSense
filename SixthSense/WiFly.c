@@ -40,7 +40,7 @@ void exitCommandMode()
 void endLine()
 {
 	print((unsigned char*)"\r\n");
-	wait_avr(500);
+	wait_avr(DELAY);
 }
 
 void println(unsigned char str[])
@@ -55,7 +55,37 @@ void print(unsigned char str[])
 	int i;
 	for (i = 0; i < strlen((char*)str); i++)
 	{
-		write(str[i]);
+		//write(str[i]);
+		USART_Transmit(str[i]);
 	}
+	wait_avr(DELAY);
+}
+
+void printNoWait(unsigned char str[])
+{
+	int i;
+	for (i = 0; i < strlen((char*)str); i++)
+	{
+		//write(str[i]);
+		USART_Transmit(str[i]);
+	}
+}
+
+void openFTP(unsigned char *filename)
+{
+	enterCommandMode();
+	println((unsigned char*)"set comm close .txt");
+	println((unsigned char*)"set ftp timer 480");
+	printNoWait((unsigned char*) "ftp put ");
+	println(filename);
+	
+	unsigned char temp = USART_Receive();
+	while (temp != (unsigned char)'-') temp = USART_Receive();
+}
+
+void closeFTP()
+{
 	wait_avr(500);
+	println((unsigned char*)".txt");
+	exitCommandMode();
 }

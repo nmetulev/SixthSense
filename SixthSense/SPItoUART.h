@@ -37,5 +37,6 @@ unsigned char available();
 unsigned char read();
 void write(unsigned char value);
 unsigned char available();
+void flush(void);
 
 #endif /* SPITOUART_H_ */

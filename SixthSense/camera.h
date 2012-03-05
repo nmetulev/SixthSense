@@ -9,14 +9,21 @@
 #include <avr/io.h>
 #include "string.h"
 #include "main.h"
+#include "SPItoUART.h"
+#include "WiFly.h"
 
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-void transmitData(unsigned char*);
-void init_cam(unsigned char*);
-void stop_cam(char*);
-void capture(char*);
-void getSize(char*, int*);
+#define PACKET_SIZE 32
+
+void transmitData(const unsigned char*, int);
+void resetCam(unsigned char*);
+void changeSize(unsigned char*);
+void changebaud(unsigned char*);
+void stop_cam(unsigned char*);
+void capture(unsigned char*);
+void getSize(unsigned char*, unsigned int*);
+void readData(unsigned char *, int);
 
 #endif /* CAMERA_H_ */

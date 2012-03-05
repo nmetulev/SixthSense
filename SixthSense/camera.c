@@ -8,73 +8,104 @@
 #include "camera.h"
 
 
-unsigned char reset_cam[] = {0x56, 0x00, 0x26, 0x00};
-unsigned char take_picture[] = {0x56, 0x00, 0x36, 0x01, 0x00};
-unsigned char read_size[] = {0x56, 0x00, 0x34, 0x01, 0x00};
-unsigned char read_data[] = {0x56, 0x00, 0x32, 0x0C, 0x00, 0x0A, 0x00, 0x00};
-unsigned char stop_picture[] = {0x56, 0x00, 0x36, 0x01, 0x03};
-unsigned char comp_ratio[] = {0x56, 0x00, 0x31, 0x05, 0x01, 0x01, 0x12, 0x04}; //0x00 to 0xFF for last hex code
-unsigned char image_size[] = {0x56, 0x00, 0x31, 0x05, 0x04, 0x01, 0x00, 0x19, 0x00}; // set to 640x480
-unsigned char baud_rate[] = {0x56, 0x00, 0x24, 0x03, 0x01, 0x2A, 0xF2}; // set to 38400
-unsigned char init_end[] = {0x36, 0x32, 0x35, 0x0D, 0x0A, 0x49, 0x6E, 0x69, 0x74, 0x20, 0x65, 0x6E, 0x64, 0x0D, 0x0A};
+const unsigned char reset_cam[4] = {0x56, 0x00, 0x26, 0x00};
+const unsigned char take_picture[] = {0x56, 0x00, 0x36, 0x01, 0x00};
+const unsigned char read_size[] = {0x56, 0x00, 0x34, 0x01, 0x00};
+const unsigned char read_data[] = {0x56, 0x00, 0x32, 0x0C, 0x00, 0x0A, 0x00, 0x00};
+const unsigned char stop_picture[] = {0x56, 0x00, 0x36, 0x01, 0x03};
+const unsigned char comp_ratio[] = {0x56, 0x00, 0x31, 0x05, 0x01, 0x01, 0x12, 0x04}; //0x00 to 0xFF for last hex code
+const unsigned char image_size[] = {0x56, 0x00, 0x31, 0x05, 0x04, 0x01, 0x00, 0x19, 0x00}; // set to 640x480(0x19, 0x00) 160x120(0x19, 0x22)
+const unsigned char baud_rate[] = {0x56, 0x00, 0x24, 0x03, 0x01, 0x2A, 0xF2}; // set to 38400 (0x2A 0xF2) - 9600 (0xAE 0xC8
+const unsigned char init_end[] = {0x36, 0x32, 0x35, 0x0D, 0x0A, 0x49, 0x6E, 0x69, 0x74, 0x20, 0x65, 0x6E, 0x64, 0x0D, 0x0A};
 	
-void transmitData(unsigned char data[])
-{
-	int j = strlen((char*)data);
+void transmitData(const unsigned char data[], int length)
+{	
 	int i;
-	
-	for(i = 0; i < j; i++)
+	for(i = 0; i < length; i++)
 	{
-		USART_Transmit(data[i]);
+		//USART_Transmit(data[i]);
+		write(data[i]);
 	}
 }
-void init_cam(unsigned char response[])
+
+void resetCam(unsigned char *response)
 {
-	// flush out buffer to rid of any data
-	USART_flush();
-	wait_avr(100);
-	transmitData(reset_cam);
-	wait_avr(4000);
+	flush();
+	transmitData(reset_cam, 4);
 	int i;
 	for (i = 0; i < 4; i++)
-		response[i] = USART_Receive();
-	// set baud rate to 38400
-	transmitData(baud_rate);
-	wait_avr(500);
-	for (i = 4; i < 9; i++)
-		response[i] = USART_Receive();/*
-	// set image size
-	transmitData(image_size);
-	wait_avr(500);
-	for (i = 9; i < 14; i++)
-		response[i] = USART_Receive();
-	transmitData(init_end);*/
-	wait_avr(2000);
-}
-void stop_cam(char* response)
-{
-	USART_flush();
-	transmitData(stop_picture);
-	int i;
-	for (i = 0; i < 5; i++)
-		*response++ = USART_Receive();
-}
-void capture(char* response)
-{
-	transmitData(take_picture);
-	int i;
-	for (i = 0; i < 5; i++)
-		*response++ = USART_Receive();
+		response[i] = read();
+	wait_avr(4000);
 }
 
-void getSize(char *response, int *size)
+void changeBaud(unsigned char *response)
 {
-	transmitData(read_size);
+	flush();
+	transmitData(baud_rate, 7);
+	int i;
+	for (i = 4; i < 9; i++)
+	{
+		response[i] = read();
+	}		
+}
+
+void changeSize(unsigned char *response)
+{
+	flush();
+	transmitData(image_size, 9);
+	int i;
+	for (i = 0; i < 5; i++)
+		response[i] = read();
+	resetCam(response);
+}
+
+void stop_cam(unsigned char* response)
+{
+	flush();
+	transmitData(stop_picture, 5);
+	int i;
+	for (i = 0; i < 5; i++)
+		response[i] = read();
+}
+void capture(unsigned char* response)
+{
+	flush();
+	transmitData(take_picture, 5);
+	int i;
+	for (i = 0; i < 5; i++)
+		response[i] = read();
+}
+
+void getSize(unsigned char *response, unsigned int *size)
+{
+	flush();
+	transmitData(read_size, 5);
 	int i;
 	for (i = 0; i < 9; i++)
-		*response++ = USART_Receive();
+		response[i] = read();
 	*size = response[7]*256;
 	*size += ((int)response[8] & 0x00FF);
+}
+
+void readData(unsigned char *response, int address)
+{
+	flush();
+	transmitData(read_data, 8);
+	write(address>>8);
+	write(address);
+	write(0x00);
+	write(0x00);
+	write(0x00); // KH
+	write(0x20); // KL  32 image size
+	write(0x00);
+	write(0x0A);
+	
+	int i;
+	for (i = 0; i < 5; i++)
+		read();
+		
+	for (i = 0; i < PACKET_SIZE; i++)
+		response[i] = read();
 }
 
 /*
