@@ -1,1 +1,11 @@
-Sixth Sense - UCI CSE Senior Design ProjectOfficail Repository
+Sixth Sense - UCI CSE Senior Design ProjectOfficial Repository
+
+The hardware in use is:
+AtMega32L microcontroller;
+LinkSprite JPEG Color Camera TTL Interface
+RN-XV WiFly module
+ePIR Motion Detection Module
+Ultrasonic Range Finder
+Lithium Ion Battery - 2000mAh
+10W Solar Panel
+Server - DD-WRT running on ASUS router
