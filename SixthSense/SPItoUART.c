@@ -38,7 +38,8 @@ void initUART(unsigned long baudrate)
   //Assumes you have the version with the ~14MHz crystal
   // (16x9600 = 153600 = 14.7456Mhz/96)
   // (16x38400 = 614400 = 14.7456Mhz/24)
-  writeRegister(DLL,24);
+  // (16x115200 = 1843200 = 14.7456Mhz/8)
+  writeRegister(DLL,baudrate);
   writeRegister(DLH,0x00); 
   
   //Line Control Register: Disnable Writing DLH & DLL

@@ -12,6 +12,7 @@
 #define MAIN_H_
 
 void flashLED(int led);
+void takePhoto(unsigned char*);
 
 
 

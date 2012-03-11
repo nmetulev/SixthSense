@@ -15,15 +15,17 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#define PACKET_SIZE 32
+#define PACKET_SIZE 256
 
 void transmitData(const unsigned char*, int);
 void resetCam(unsigned char*);
 void changeSize(unsigned char*);
-void changebaud(unsigned char*);
+void changeBaud(unsigned char*);
 void stop_cam(unsigned char*);
+void changeCompression(unsigned char*);
 void capture(unsigned char*);
 void getSize(unsigned char*, unsigned int*);
 void readData(unsigned char *, int);
+void readDataAtOnce();
 
 #endif /* CAMERA_H_ */
